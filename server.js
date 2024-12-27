@@ -15,7 +15,7 @@ const app = express();
 
 // Configura CORS para permitir solicitudes desde el frontend
 const corsOptions = {
-    origin: 'https://front-party-kids.vercel.app/booking',  // La URL de tu frontend
+    origin: 'https://front-party-kids.vercel.app',  // La URL de tu frontend
     methods: ['GET', 'POST', 'PUT', 'DELETE'],    // Métodos permitidos
     allowedHeaders: ['Content-Type', 'Authorization'],  // Cabeceras permitidas
   };
