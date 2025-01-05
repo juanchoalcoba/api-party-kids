@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const express = require('express');
 const Booking = require('../models/Booking');
 
@@ -26,17 +27,23 @@ router.post('/', async (req, res) => {
   }
 });
 
+
 router.delete('/:id', async (req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    return res.status(400).json({ message: 'ID de reserva inválida' });
+  }
+
   try {
-    const booking = await Booking.findById(req.params.id); // Obtener la reserva por su ID
+    const booking = await Booking.findById(req.params.id);
     if (!booking) return res.status(404).json({ message: 'Reserva no encontrada' });
 
-    await booking.remove(); // Eliminar la reserva
+    await booking.remove();
     res.json({ message: 'Reserva eliminada' });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
+
 
 
 
