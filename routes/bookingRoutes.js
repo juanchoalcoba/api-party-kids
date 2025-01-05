@@ -26,6 +26,23 @@ router.post('/', async (req, res) => {
   }
 });
 
+router.delete('/:id', async (req, res) => {
+  try {
+    const booking = await Booking.findById(req.params.id); // Obtener la reserva por su ID
+    if (!booking) return res.status(404).json({ message: 'Reserva no encontrada' });
+
+    await booking.remove(); // Eliminar la reserva
+    res.json({ message: 'Reserva eliminada' });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+
+
+
+
+
 // NUEVO ENDPOINT: Obtener solo las fechas reservadas
 router.get('/booked-dates', async (req, res) => {
   try {
