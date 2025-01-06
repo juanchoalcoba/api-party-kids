@@ -30,7 +30,11 @@ router.post('/', async (req, res) => {
 
 // Eliminar una reserva
 router.delete('/:id', async (req, res) => {
-  const { id } = req.params; // Obtenemos el ID de los parámetros de la URL
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ message: 'ID de reserva no válido' });
+  }
 
   try {
     // Intentamos encontrar la reserva por ID
@@ -49,9 +53,6 @@ router.delete('/:id', async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
-
-
-
 
 
 
