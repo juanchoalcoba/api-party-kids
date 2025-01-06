@@ -28,22 +28,27 @@ router.post('/', async (req, res) => {
 });
 
 
+// Eliminar una reserva
 router.delete('/:id', async (req, res) => {
-  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-    return res.status(400).json({ message: 'ID de reserva inválida' });
-  }
+  const { id } = req.params; // Obtenemos el ID de los parámetros de la URL
 
   try {
-    const booking = await Booking.findById(req.params.id);
-    if (!booking) return res.status(404).json({ message: 'Reserva no encontrada' });
+    // Intentamos encontrar la reserva por ID
+    const booking = await Booking.findById(id);
 
-    await booking.remove();
+    // Si no se encuentra la reserva, enviamos un 404
+    if (!booking) {
+      return res.status(404).json({ message: 'Reserva no encontrada' });
+    }
+
+    // Eliminamos la reserva si fue encontrada
+    await Booking.deleteOne({ _id: id });
     res.json({ message: 'Reserva eliminada' });
   } catch (err) {
+    // Si ocurre un error, devolvemos un 500 con el mensaje del error
     res.status(500).json({ message: err.message });
   }
 });
-
 
 
 
