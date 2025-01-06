@@ -10,8 +10,6 @@ dotenv.config();
 // Conectar a la base de datos
 connectDB();
 
-app.use(express.urlencoded({true}))
-
 // Inicializar la app de Express
 const app = express();
 
