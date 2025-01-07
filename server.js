@@ -30,7 +30,7 @@ const corsOptions = {
 };
 
 // Aplica CORS solo para la ruta /api/bookings
-app.use('/api/bookings', cors(corsOptions));
+app.use(cors(corsOptions));
 
 // Middleware para analizar datos JSON
 app.use(express.json());
