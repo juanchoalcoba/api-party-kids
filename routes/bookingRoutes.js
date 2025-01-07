@@ -1,6 +1,6 @@
 const express = require('express');
 const Booking = require('../models/Booking');
-
+const mongoose = require("mongoose")
 const router = express.Router();
 
 // Obtener todas las reservas
@@ -30,11 +30,14 @@ router.post('/', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   const { id } = req.params; // Obtén el ID desde la URL
   try {
-    const booking = await Booking.findOne({_id: id}); // Busca la reserva en la base de datos
-    if (!booking) {
+    // Convierte el ID en ObjectId para asegurar que esté en el formato correcto
+    const result = await Booking.deleteOne({ _id: mongoose.Types.ObjectId(id) }); 
+
+    // Verifica si realmente se eliminó una reserva
+    if (result.deletedCount === 0) {
       return res.status(404).json({ message: 'Reserva no encontrada' });
     }
-    await booking.deleteOne(); // Elimina la reserva
+
     res.json({ message: 'Reserva eliminada con éxito' });
   } catch (err) {
     console.error(err);
