@@ -28,21 +28,16 @@ router.post('/', async (req, res) => {
 
 
 // Eliminar una reserva por _id
+// Ruta DELETE para eliminar una reserva
 router.delete('/:id', async (req, res) => {
-  const { id } = req.params;  // Obtenemos el ID de los parámetros de la URL
-
   try {
-    const booking = await Booking.findById(id);  // Buscar la reserva por ID
-
+    const booking = await Booking.findByIdAndDelete(req.params.id);
     if (!booking) {
       return res.status(404).json({ message: 'Reserva no encontrada' });
     }
-
-    // Eliminar la reserva
-    await Booking.deleteOne({ _id: id });
-    res.json({ message: 'Reserva eliminada' });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(200).json({ message: 'Reserva eliminada correctamente' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error al eliminar la reserva', error });
   }
 });
 
