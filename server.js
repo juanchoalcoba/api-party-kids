@@ -15,15 +15,14 @@ const app = express();
 
 // Configura CORS para permitir solicitudes desde el frontend
 const corsOptions = {
-    origin: 'https://front-party-kids.vercel.app',  // La URL de tu frontend
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],    // Métodos permitidos
-    allowedHeaders: ['Content-Type', 'Authorization'],  // Cabeceras permitidas
-    credentials: true,  // Si necesitas permitir cookies o autenticación
+  origin: 'https://front-party-kids.vercel.app',  // La URL de tu frontend
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],    // Métodos permitidos
+  allowedHeaders: ['Content-Type', 'Authorization'],  // Cabeceras permitidas
+  credentials: true,  // Si usas cookies o autenticación
 };
-  
-  app.use(cors(corsOptions));  // Aplica la configuración de CORS
 
-  
+// Aplica CORS solo para la ruta /api/bookings
+app.use('/api/bookings', cors(corsOptions));
 
 // Middleware para analizar datos JSON
 app.use(express.json());
