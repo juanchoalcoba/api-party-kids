@@ -30,7 +30,7 @@ router.post('/', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   const { id } = req.params; // Obtén el ID desde la URL
   try {
-    const booking = await Booking.findByIdAndDelete(id); // Busca la reserva en la base de datos
+    const booking = await Booking.findById(id); // Busca la reserva en la base de datos
     if (!booking) {
       return res.status(404).json({ message: 'Reserva no encontrada' });
     }
