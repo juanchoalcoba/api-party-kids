@@ -15,7 +15,7 @@ const app = express();
 
 // Middleware para agregar los headers de CORS
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "https://api-party-kids.vercel.app/api/bookings"); // Puedes cambiar '*' por tu dominio si quieres ser más específico
+  res.header("Access-Control-Allow-Origin", "*"); // Puedes cambiar '*' por tu dominio si quieres ser más específico
   res.header("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With, Accept");
   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
   next(); // Pasa al siguiente middleware
