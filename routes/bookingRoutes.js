@@ -1,10 +1,10 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const Booking = require('../models/Booking');
+const Booking = require('../models/Booking');  // Asegúrate de tener este modelo de Booking
 
 const router = express.Router();
 
-// Obtener todas las reservas
+// Obtener todas las reservas (GET)
 router.get('/', async (req, res) => {
   try {
     const bookings = await Booking.find();
@@ -14,7 +14,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Crear una nueva reserva
+// Crear una nueva reserva (POST)
 router.post('/', async (req, res) => {
   const { name, email, phone, date } = req.body;
 
@@ -27,8 +27,8 @@ router.post('/', async (req, res) => {
   }
 });
 
-// Eliminar una reserva por _id
-router.delete('/:id', async (req, res) => {
+// Eliminar una reserva por _id usando app.delete()
+app.delete('/api/bookings/:id', async (req, res) => {
   const { id } = req.params;  // Obtenemos el ID de los parámetros de la URL
 
   // Validar si el id es un ObjectId válido de MongoDB
@@ -46,17 +46,6 @@ router.delete('/:id', async (req, res) => {
     // Eliminar la reserva
     await Booking.deleteOne({ _id: id });
     res.json({ message: 'Reserva eliminada' });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
-
-// NUEVO ENDPOINT: Obtener solo las fechas reservadas
-router.get('/booked-dates', async (req, res) => {
-  try {
-    const bookings = await Booking.find().select('date -_id'); // Selecciona solo las fechas sin el _id
-    const bookedDates = bookings.map(booking => booking.date); // Extrae solo las fechas en un array
-    res.json(bookedDates); // Envia las fechas reservadas como respuesta
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
