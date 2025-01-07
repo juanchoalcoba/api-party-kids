@@ -10,15 +10,28 @@ dotenv.config();
 // Conectar a la base de datos
 connectDB();
 
-app.use(cors({
-  origin: 'https://front-party-kids.vercel.app/', // El origen exacto de tu frontend desplegado en Vercel
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Permitir los métodos HTTP necesarios
-  allowedHeaders: ['Content-Type', 'Authorization'], // Cabeceras permitidas
-}));
-
-
 // Inicializar la app de Express
 const app = express();
+
+// Middleware para agregar los headers de CORS
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "https://api-party-kids.vercel.app/api/bookings"); // Puedes cambiar '*' por tu dominio si quieres ser más específico
+  res.header("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With, Accept");
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  next(); // Pasa al siguiente middleware
+});
+
+// Configura CORS para permitir solicitudes desde el frontend
+const corsOptions = {
+  origin: 'https://front-party-kids.vercel.app', // La URLS de tu frontend
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],  // Métodos permitidos
+  allowedHeaders: ['Content-Type', 'Authorization'],  // Cabeceras permitidas
+  credentials: true,  // Si usas cookies o autenticación
+};
+
+// Aplica CORS solo para la ruta /api/bookings
+app.use(cors(corsOptions));
+
 // Middleware para analizar datos JSON
 app.use(express.json());
 
