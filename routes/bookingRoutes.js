@@ -1,4 +1,5 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const Booking = require('../models/Booking');
 
 const router = express.Router();
@@ -26,10 +27,14 @@ router.post('/', async (req, res) => {
   }
 });
 
-
 // Eliminar una reserva por _id
 router.delete('/:id', async (req, res) => {
   const { id } = req.params;  // Obtenemos el ID de los parámetros de la URL
+
+  // Validar si el id es un ObjectId válido de MongoDB
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ message: 'ID no válido' });
+  }
 
   try {
     const booking = await Booking.findById(id);  // Buscar la reserva por ID
@@ -45,9 +50,6 @@ router.delete('/:id', async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
-
-
-
 
 // NUEVO ENDPOINT: Obtener solo las fechas reservadas
 router.get('/booked-dates', async (req, res) => {
