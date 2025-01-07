@@ -36,7 +36,7 @@ app.use('/api/bookings', bookingRoutes); // Mantener las rutas GET y POST en boo
 
 // ** NUEVA RUTA DELETE DIRECTAMENTE EN EL SERVER.JS **
 app.delete('/api/bookings/:id', async (req, res) => {
-  const { id } = req.params;
+  const { id } = req.params.id;
 
   // Validar si el id es un ObjectId válido de MongoDB
   if (!mongoose.Types.ObjectId.isValid(id)) {
