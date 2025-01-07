@@ -25,7 +25,7 @@ app.use((req, res, next) => {
 const corsOptions = {
   origin: 'https://front-party-kids.vercel.app', // La URLS de tu frontend
   methods: ['GET', 'POST', 'PUT', 'DELETE'],  // Métodos permitidos
-  allowedHeaders: ['Content-Type', 'application/json'],  // Cabeceras permitidas
+  allowedHeaders: ['Content-Type', 'Authorization'],  // Cabeceras permitidas
   credentials: true,  // Si usas cookies o autenticación
 };
 
