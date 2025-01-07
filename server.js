@@ -1,6 +1,5 @@
 const express = require('express');
 const dotenv = require('dotenv');
-const cors = require('cors');
 const connectDB = require('./config/db');
 const bookingRoutes = require('./routes/bookingRoutes');
 
@@ -13,14 +12,18 @@ connectDB();
 // Inicializar la app de Express
 const app = express();
 
-// Configura CORS para permitir solicitudes desde el frontend
-const corsOptions = {
-    origin: 'https://front-party-kids.vercel.app',  // La URL de tu frontend
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],    // Métodos permitidos
-    allowedHeaders: ['Content-Type', 'Authorization'],  // Cabeceras permitidas
-  };
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*'); // Permite cualquier origen
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.header('Access-Control-Allow-Credentials', 'true');
   
-  app.use(cors(corsOptions));  // Aplica la configuración de CORS
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(200);  // Maneja preflight request
+  }
+
+  next();
+});
 
 // Middleware para analizar datos JSON
 app.use(express.json());
