@@ -10,6 +10,7 @@ dotenv.config();
 // Conectar a la base de datos
 connectDB();
 
+// Inicializar la app de Express
 const corsOptions = {
   origin: 'https://front-party-kids.vercel.app', // URL exacta del frontend
   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Métodos permitidos, incluidas las solicitudes preflight
@@ -19,10 +20,11 @@ const corsOptions = {
 
 // Middleware para CORS
 app.use(cors(corsOptions));
-// Inicializar la app de Express
 const app = express();
 
+// Configuración de CORS
 
+// Middleware para analizar datos JSON
 app.use(express.json());
 
 // Habilitar solicitudes preflight (para DELETE, POST, PUT, etc.)
