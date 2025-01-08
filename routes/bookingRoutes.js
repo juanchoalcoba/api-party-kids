@@ -2,6 +2,21 @@ const express = require('express');
 const Booking = require('../models/Booking');
 const mongoose = require("mongoose")
 const router = express.Router();
+const cors = require('cors');
+
+
+
+const corsOptions = {
+    origin: 'https://front-party-kids.vercel.app', // La URL de tu frontend en Vercel
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],  // Métodos permitidos
+    allowedHeaders: ['Content-Type', 'Authorization'],  // Cabeceras permitidas
+    optionsSuccessStatus: 204,  // Opcional para manejar preflight exitoso
+  };
+  
+  // Aplica CORS a toda la aplicación
+  app.use(cors(corsOptions));
+
+
 
 // Obtener todas las reservas
 router.get('/', async (req, res) => {
@@ -27,7 +42,7 @@ router.post('/', async (req, res) => {
 });
 
 
-router.delete('/id', async (req, res) => {
+router.delete('/:id', async (req, res) => {
   const { id } = req.params; // Obtén el ID desde la URL
   try {
     // Convierte el ID en ObjectId para asegurar que esté en el formato correcto
