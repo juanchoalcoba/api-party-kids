@@ -1,3 +1,5 @@
+'use strict'
+
 const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
@@ -16,7 +18,7 @@ const app = express();
 // Configuración de CORS
 const corsOptions = {
     origin: 'https://front-party-kids.vercel.app', // La URL de tu frontend en Vercel
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],  // Métodos permitidos
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],  // Métodos permitidos
     allowedHeaders: ['Content-Type', 'Authorization'],  // Cabeceras permitidas
     optionsSuccessStatus: 204,  // Opcional para manejar preflight exitoso
   };
