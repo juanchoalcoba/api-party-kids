@@ -26,7 +26,6 @@ const corsOptions = {
   origin: 'https://front-party-kids.vercel.app', // La URLS de tu frontend
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],  // Métodos permitidos
   allowedHeaders: ['Content-Type', 'Authorization'],  // Cabeceras permitidas
-  credentials: true,  // Si usas cookies o autenticación
 };
 
 // Aplica CORS solo para la ruta /api/bookings
