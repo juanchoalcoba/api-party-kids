@@ -14,16 +14,10 @@ connectDB();
 const app = express();
 
 // Configuración de CORS
-const corsOptions = {
-  origin: 'https://front-party-kids.vercel.app', // La URL de tu frontend
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],  // Métodos permitidos
-  allowedHeaders: ['Content-Type', 'Authorization'],  // Cabeceras permitidas
-  credentials: true,  // Si usas cookies o autenticación
-  optionsSuccessStatus: 204,  // Opcional para manejar preflight exitoso
-};
+
 
 // Aplica CORS a toda la aplicación
-app.use(cors(corsOptions));
+app.use(cors());
 
 // Middleware para manejar las preflight requests (OPTIONS)
 app.options('*', cors());  // Permite el manejo de todas las rutas con preflight OPTIONS
