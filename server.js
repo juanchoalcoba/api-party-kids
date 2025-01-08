@@ -13,22 +13,16 @@ connectDB();
 // Inicializar la app de Express
 const app = express();
 
-// Middleware para agregar los headers de CORS
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*"); // Puedes cambiar '*' por tu dominio si quieres ser más específico
-  res.header("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With, Accept");
-  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-  next(); // Pasa al siguiente middleware
-});
-
-// Configura CORS para permitir solicitudes desde el frontend
+// Configuración de CORS
 const corsOptions = {
-  origin: 'https://front-party-kids.vercel.app', // La URLS de tu frontend
+  origin: 'https://front-party-kids.vercel.app', // La URL de tu frontend
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],  // Métodos permitidos
   allowedHeaders: ['Content-Type', 'Authorization'],  // Cabeceras permitidas
+  credentials: true,  // Si usas cookies o autenticación
+  optionsSuccessStatus: 204,  // Opcional para manejar preflight exitoso
 };
 
-// Aplica CORS solo para la ruta /api/bookings
+// Aplica CORS a toda la aplicación
 app.use(cors(corsOptions));
 
 // Middleware para analizar datos JSON
