@@ -25,6 +25,11 @@ const corsOptions = {
 // Aplica CORS a toda la aplicación
 app.use(cors(corsOptions));
 
+// Middleware para manejar las preflight requests (OPTIONS)
+app.options('/api/bookings/*', cors(corsOptions));  // Especifica el patrón de ruta para las solicitudes de CORS
+
+
+
 // Middleware para analizar datos JSON
 app.use(express.json());
 
