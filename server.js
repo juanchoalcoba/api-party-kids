@@ -19,7 +19,7 @@ const app = express();
 const corsOptions = {
     origin: 'https://front-party-kids.vercel.app', // La URL de tu frontend en Vercel
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],  // Métodos permitidos
-    allowedHeaders: ['Content-Type', 'Authorization'],  // Cabeceras permitidas
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],  // Cabeceras permitidas
     optionsSuccessStatus: 204,  // Opcional para manejar preflight exitoso
   };
   
