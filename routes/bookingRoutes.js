@@ -1,3 +1,5 @@
+'use strict'
+
 const express = require('express');
 const Booking = require('../models/Booking');
 const mongoose = require("mongoose")
