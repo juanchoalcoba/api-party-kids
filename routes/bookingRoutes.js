@@ -64,26 +64,6 @@ router.get('/booked-dates', async (req, res) => {
 
 
 
-// NUEVO ENDPOINT: Confirmar una reserva
-router.patch('/confirm/:id', async (req, res) => {
-  const { id } = req.params; // Obtén el ID desde la URL
-  try {
-    // Buscar la reserva por ID
-    const booking = await Booking.findById(id);
 
-    if (!booking) {
-      return res.status(404).json({ message: 'Reserva no encontrada' });
-    }
-
-    // Actualizar el campo 'confirmed' a true
-    booking.confirmed = true;
-    await booking.save(); // Guardar los cambios en la base de datos
-
-    res.status(200).json({ message: 'Reserva confirmada', booking });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Error al confirmar la reserva' });
-  }
-});
 
 module.exports = router;
