@@ -26,7 +26,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 // Middleware para manejar las preflight requests (OPTIONS)
-app.options('/api/bookings/*', cors(corsOptions));  // Especifica el patrón de ruta para las solicitudes de CORS
+app.options('*', cors());  // Permite el manejo de todas las rutas con preflight OPTIONS
 
 
 
