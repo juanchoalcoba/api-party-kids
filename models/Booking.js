@@ -6,6 +6,7 @@ const bookingSchema = new mongoose.Schema({
   email: { type: String, required: true },
   phone: { type: String, required: true },
   date: { type: Date, required: true },
+  confirmed: { type: Boolean, default: false },
 });
 
 const Booking = mongoose.model('Booking', bookingSchema, 'party-kids');
