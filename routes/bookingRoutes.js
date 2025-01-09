@@ -30,21 +30,22 @@ router.post('/', async (req, res) => {
 });
 
 
-router.delete('/', async (req, res) => {
-  const id  = req.params.id; // Obtén el ID desde la URL
-  try {
-    // Convierte el ID en ObjectId para asegurar que esté en el formato correcto
-    const result = await Booking.findOne({ _id: ObjectId(id) }); 
+router.delete('/deleteByName', async (req, res) => {
+  const { name } = req.body;  // Recibimos el nombre desde el cuerpo de la solicitud
 
-    // Verifica si realmente se eliminó una reserva
+  try {
+    // Intentamos eliminar el documento que coincida con el 'name'
+    const result = await Booking.deleteOne({ name: name });
+
+    // Verificamos si no se encontró ningún documento
     if (result.deletedCount === 0) {
       return res.status(404).json({ message: 'Reserva no encontrada' });
-    }s
+    }
 
-    res.json({ message: 'Reserva eliminada con éxito' });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Error al eliminar la reserva' });
+    // Si la eliminación fue exitosa
+    res.status(200).json({ message: 'Reserva eliminada con éxito' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error eliminando la reserva', error });
   }
 });
 
