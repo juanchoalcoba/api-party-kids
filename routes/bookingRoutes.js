@@ -30,13 +30,13 @@ router.post('/', async (req, res) => {
 });
 
 
-router.delete('/:id', async (req, res) => {
-  const { id } = req.params; // Obtén el ID desde la URL
+router.delete('/:_id', async (req, res) => {
+  const { _id } = req.params; // Obtener el _id desde la URL
   try {
-    // Convierte el ID en ObjectId para asegurar que esté en el formato correcto
-    const result = await Booking.deleteOne({ _id: mongoose.Types.ObjectId(id) }); 
+    // Convertir el _id en ObjectId para asegurarse de que esté en el formato correcto
+    const result = await Booking.deleteOne({ _id: mongoose.Types.ObjectId(_id) });
 
-    // Verifica si realmente se eliminó una reserva
+    // Verificar si realmente se eliminó una reserva
     if (result.deletedCount === 0) {
       return res.status(404).json({ message: 'Reserva no encontrada' });
     }
