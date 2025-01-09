@@ -31,10 +31,10 @@ router.post('/', async (req, res) => {
 
 
 router.delete('/api/bookings/:id', async (req, res) => {
-  const { id } = req.params; // Obtén el ID desde la URL
+  const query ={_id: new ObjectId(id)}; // Obtén el ID desde la URL
   try {
     // Convierte el ID en ObjectId para asegurar que esté en el formato correcto
-    const result = await Booking.deleteOne({ _id: mongoose.Types.ObjectId(id) }); 
+    const result = await Booking.deleteOne(query); 
 
     // Verifica si realmente se eliminó una reserva
     if (result.deletedCount === 0) {
