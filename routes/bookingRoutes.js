@@ -34,10 +34,10 @@ router.delete('/:id', async (req, res) => {
   const { id } = req.params; // Obtén el ID desde la URL
   try {
     // Convierte el ID en ObjectId para asegurar que esté en el formato correcto
-    const result = await Booking.deleteOne({ _id: mongoose.Types.ObjectId(id) }); 
+    const result = await Booking.findOneAndDelete({ _id: mongoose.Types.ObjectId(id) });
 
     // Verifica si realmente se eliminó una reserva
-    if (result.deletedCount === 0) {
+    if (!result) {
       return res.status(404).json({ message: 'Reserva no encontrada' });
     }
 
@@ -47,6 +47,7 @@ router.delete('/:id', async (req, res) => {
     res.status(500).json({ message: 'Error al eliminar la reserva' });
   }
 });
+
 
 
 
