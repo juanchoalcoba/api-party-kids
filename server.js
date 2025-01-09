@@ -12,8 +12,13 @@ dotenv.config();
 // Conectar a la base de datos
 connectDB();
 
+
 // Inicializar la app de Express
 const app = express();
+
+
+app.use(express.urlencoded({ extended: true }));
+
 
 // Configuración de CORS
 const corsOptions = {
