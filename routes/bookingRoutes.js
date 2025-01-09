@@ -30,7 +30,8 @@ router.post('/', async (req, res) => {
 });
 
 
-router.delete('/:id', async (req, res) => {
+// Cambiamos el método DELETE por GET
+router.get('/:id', async (req, res) => {
   const { id } = req.params; // Obtén el ID desde la URL
   try {
     // Convierte el ID en ObjectId para asegurar que esté en el formato correcto
