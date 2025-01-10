@@ -6,7 +6,10 @@ const bookingSchema = new mongoose.Schema({
   email: { type: String, required: true },
   phone: { type: String, required: true },
   date: { type: Date, required: true },
-  
+  confirmed: {
+    type: Boolean,
+    default: false, // El valor predeterminado es false, es decir, la reserva no está confirmada
+  }
 });
 
 const Booking = mongoose.model('Booking', bookingSchema, 'party-kids');
