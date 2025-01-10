@@ -51,34 +51,6 @@ router.delete('/', async (req, res) => {
 
 
 
-// Ruta PATCH para confirmar una reserva
-router.patch('/', async (req, res) => {
-  const { name } = req.query;  // Recibimos el nombre desde la query string
-
-  try {
-    // Buscamos la reserva por nombre
-    const booking = await Booking.findOne({ name });
-
-    if (!booking) {
-      return res.status(404).json({ message: 'Reserva no encontrada' });
-    }
-
-    // Actualizamos el estado de confirmación de la reserva
-    booking.confirmed = true;
-    await booking.save();
-
-    // Responder con éxito
-    res.status(200).json({ message: 'Reserva confirmada con éxito', booking });
-  } catch (error) {
-    res.status(500).json({ message: 'Error confirmando la reserva', error });
-  }
-});
-
-
-
-
-
-
 
 // NUEVO ENDPOINT: Obtener solo las fechas reservadas
 router.get('/booked-dates', async (req, res) => {
