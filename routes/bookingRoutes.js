@@ -30,8 +30,8 @@ router.post('/', async (req, res) => {
 });
 
 
-router.delete('/deleteByName', async (req, res) => {
-  const { name } = req.body;  // Recibimos el nombre desde el cuerpo de la solicitud
+router.delete('/', async (req, res) => {
+  const { name } = req.query;  // Recibimos el 'name' desde los parámetros de la URL
 
   try {
     // Intentamos eliminar el documento que coincida con el 'name'
