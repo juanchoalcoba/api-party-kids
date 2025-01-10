@@ -18,7 +18,7 @@ router.get('/', async (req, res) => {
 
 // Crear una nueva reserva
 router.post('/', async (req, res) => {
-  const { name, email, phone, date } = req.body;
+  const { name, namekid, email, phone, date } = req.body;
 
   try {
     const newBooking = new Booking({ name, namekid, email, phone, date });
