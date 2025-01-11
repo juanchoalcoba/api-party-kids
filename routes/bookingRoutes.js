@@ -34,7 +34,7 @@ router.post('/', async (req, res) => {
       const message = await client.messages.create({
         to: '+59894129926',  // El número fijo al que deseas enviar el SMS
         from: '+15705308650',  // Tu número de Twilio
-        body: 'Se ha realizado una nueva reserva',  // El mensaje que deseas enviar
+        body: 'Se ha realizado una nueva reserva en KidsParty!!',  // El mensaje que deseas enviar
       });
       console.log('Mensaje enviado:', message.sid);
     } catch (error) {
