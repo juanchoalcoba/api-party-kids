@@ -5,28 +5,6 @@ const Booking = require('../models/Booking');
 const mongoose = require("mongoose")
 const router = express.Router();
 
-const twilio = require('twilio');  // Aquí importamos Twilio
-
-
-
-const accountSid = 'ACb5810eecc32e7e99d1d7a07b342079fa'; 
-const authToken = 'a26eb5db9ee303fbc5cc3e922f39dfc9';  
-const client = new twilio(accountSid, authToken);  // Creamos una instancia del cliente de Twilio
-
-// Función para enviar el SMS
-async function sendSms() {
-  try {
-    const message = await client.messages.create({
-      to: '+59894129926',  // El número fijo al que deseas enviar el SMS
-      from: '+15705308650',  // Tu número de Twilio
-      body: 'Se ha realizado una nueva reserva',  // El mensaje que deseas enviar
-    });
-    console.log('Mensaje enviado:', message.sid);
-  } catch (error) {
-    console.error('Error al enviar mensaje:', error);
-  }
-}
-
 
 // Obtener todas las reservas
 router.get('/', async (req, res) => {
@@ -45,10 +23,6 @@ router.post('/', async (req, res) => {
   try {
     const newBooking = new Booking({ name, namekid, email, phone, date });
     await newBooking.save();
-
-
-    await sendSms();
-
     res.status(201).json(newBooking);
   } catch (err) {
     res.status(400).json({ message: err.message });
