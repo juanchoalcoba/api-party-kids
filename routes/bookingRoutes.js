@@ -7,6 +7,12 @@ const router = express.Router();
 
 const twilio = require('twilio');  // Aquí importamos Twilio
 
+
+
+const accountSid = 'your_account_sid';  // Sustituye por tu SID de cuenta
+const authToken = 'your_auth_token';  // Sustituye por tu token de autenticación
+const client = twilio(accountSid, authToken);  // Creamos una instancia del cliente de Twilio
+
 // Función para enviar el SMS
 async function sendSms() {
   try {
