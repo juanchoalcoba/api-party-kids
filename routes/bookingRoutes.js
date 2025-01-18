@@ -42,13 +42,20 @@ router.post('/', async (req, res) => {
     }
   }
 
-  const { name, namekid, email, phone, date } = req.body;
+  const { name, namekid, email, phone, date, duration, selectedTime } = req.body;  // Incluye los nuevos campos
 
   try {
-    const newBooking = new Booking({ name, namekid, email, phone, date });
+    const newBooking = new Booking({
+      name, 
+      namekid, 
+      email, 
+      phone, 
+      date, 
+      duration,  // Guardar duración
+      selectedTime,  // Guardar hora seleccionada
+    });
+
     await newBooking.save();
-
-
     await sendSms();
 
     res.status(201).json(newBooking);
