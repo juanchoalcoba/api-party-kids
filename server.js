@@ -41,5 +41,11 @@ app.use(express.json());
 // Rutas de la API
 app.use('/api/bookings', bookingRoutes);
 
+
+
+app.listen(3000, () => {
+  console.log('Server running at http://localhost:3000/');
+});
+
 // Exportar la app para que Vercel la maneje
 module.exports = app;

@@ -5,13 +5,11 @@ const Booking = require('../models/Booking');
 const mongoose = require("mongoose")
 const router = express.Router();
 
-const twilio = require('twilio');  // Aquí importamos Twilio
 
 
 
 const accountSid = 'ACb5810eecc32e7e99d1d7a07b342079fa'; 
 const authToken = 'a6d9703048342862031dc490eab67b06';  
-const client = new twilio(accountSid, authToken);  // Creamos una instancia del cliente de Twilio
 
 // Función para enviar el SMS
 
@@ -27,32 +25,44 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Crear una nueva reserva
+// server/routes/bookingRoutes.js
 router.post('/', async (req, res) => {
-  async function sendSms() {
-    try {
-      const message = await client.messages.create({
-        to: '+59894129926',  // El número fijo al que deseas enviar el SMS
-        from: '+15705308650',  // Tu número de Twilio
-        body: 'Se ha realizado una nueva reserva en KidsParty!!',  // El mensaje que deseas enviar
-      });
-      console.log('Mensaje enviado:', message.sid);
-    } catch (error) {
-      console.error('Error al enviar mensaje:', error);
-    }
+  const { name, namekid, email, phone, startTime, duration } = req.body;
+
+  // Convertimos startTime a un objeto Date
+  const start = new Date(startTime);
+  const end = new Date(start.getTime() + duration * 60 * 60 * 1000); // Duración en horas
+
+  // Verificamos si ya existe una reserva en ese rango de tiempo
+  const existingBookings = await Booking.find({
+    $or: [
+      { 
+        $and: [
+          { startTime: { $lt: end } },  // Si la hora de inicio de la reserva actual es antes del final de la nueva reserva
+          { endTime: { $gt: start } }  // Y si el final de la reserva actual es después del inicio de la nueva reserva
+        ]
+      }
+    ]
+  });
+
+  // Si hay reservas existentes en ese rango, respondemos con un error
+  if (existingBookings.length > 0) {
+    return res.status(400).json({ message: 'La hora seleccionada ya está reservada, por favor elige otra.' });
   }
 
-
-
-
-
-  const { name, namekid, email, phone, date } = req.body;
-
+  // Ahora comprobamos si la reserva no tiene solapamiento, si pasa, creamos la nueva reserva
   try {
-    const newBooking = new Booking({ name, namekid, email, phone, date });
+    const newBooking = new Booking({ 
+      name, 
+      namekid, 
+      email, 
+      phone, 
+      startTime: start, 
+      duration 
+    });
     await newBooking.save();
-
-
+    
+    // Enviar mensaje de SMS (esto ya está implementado en tu código)
     await sendSms();
 
     res.status(201).json(newBooking);
@@ -109,11 +119,15 @@ router.put('/', async (req, res) => {
 
 
 // NUEVO ENDPOINT: Obtener solo las fechas reservadas
+// NUEVO ENDPOINT: Obtener solo las fechas reservadas
 router.get('/booked-dates', async (req, res) => {
   try {
-    const bookings = await Booking.find().select('date -_id'); // Selecciona solo las fechas sin el _id
-    const bookedDates = bookings.map(booking => booking.date); // Extrae solo las fechas en un array
-    res.json(bookedDates); // Envia las fechas reservadas como respuesta
+    const bookings = await Booking.find().select('startTime duration -_id'); 
+    const bookedDates = bookings.map(booking => ({
+      startTime: booking.startTime,
+      endTime: new Date(booking.startTime.getTime() + booking.duration * 60 * 60 * 1000),  // Calculamos la hora de finalización
+    }));
+    res.json(bookedDates); 
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
