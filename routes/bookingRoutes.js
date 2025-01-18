@@ -5,9 +5,15 @@ const Booking = require('../models/Booking');
 const mongoose = require("mongoose")
 const router = express.Router();
 
+const twilio = require('twilio');  // Aquí importamos Twilio
 
 
 
+const accountSid = 'ACb5810eecc32e7e99d1d7a07b342079fa'; 
+const authToken = 'a6d9703048342862031dc490eab67b06';  
+const client = new twilio(accountSid, authToken);  // Creamos una instancia del cliente de Twilio
+
+// Función para enviar el SMS
 
 
 
@@ -23,32 +29,33 @@ router.get('/', async (req, res) => {
 
 // Crear una nueva reserva
 router.post('/', async (req, res) => {
-  // Extraemos todos los campos de la solicitud (incluyendo duration y selectedTime)
-  const { name, namekid, email, phone, date, duration, selectedTime } = req.body;
+  async function sendSms() {
+    try {
+      const message = await client.messages.create({
+        to: '+59899928843',  // El número fijo al que deseas enviar el SMS
+        from: '+15705308650',  // Tu número de Twilio
+        body: 'Se ha realizado una nueva reserva en KidsParty!!',  // El mensaje que deseas enviar
+      });
+      console.log('Mensaje enviado:', message.sid);
+    } catch (error) {
+      console.error('Error al enviar mensaje:', error);
+    }
+  }
+
+  const { name, namekid, email, phone, date } = req.body;
 
   try {
-    // Creamos una nueva reserva incluyendo duration y selectedTime
-    const newBooking = new Booking({ 
-      name, 
-      namekid, 
-      email, 
-      phone, 
-      date, 
-      duration,       // Añadimos duration
-      selectedTime    // Añadimos selectedTime
-    });
-
-    // Guardamos la nueva reserva en la base de datos
+    const newBooking = new Booking({ name, namekid, email, phone, date });
     await newBooking.save();
 
-    // Enviamos la respuesta con el objeto de la reserva creada
+
+    await sendSms();
+
     res.status(201).json(newBooking);
   } catch (err) {
-    // Si ocurre algún error, respondemos con un mensaje de error
     res.status(400).json({ message: err.message });
   }
 });
-
 
 
 router.delete('/', async (req, res) => {
