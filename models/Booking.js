@@ -6,10 +6,11 @@ const bookingSchema = new mongoose.Schema({
   namekid: { type: String, required: true },
   email: { type: String, required: true },
   phone: { type: String, required: true },
-  startTime: { type: Date, required: true },  // Hora de inicio
-  duration: { type: Number, required: true },  // Duración en horas (4 o 8 horas)
-  confirmed: { type: Boolean, default: false }
+  date: { type: Date, required: true },
+  confirmed: {type: Boolean, default: false, // El valor predeterminado es false, es decir, la reserva no está confirmada
+  }
 });
 
 const Booking = mongoose.model('Booking', bookingSchema, 'party-kids');
 module.exports = Booking;
+
