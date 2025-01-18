@@ -42,10 +42,10 @@ router.post('/', async (req, res) => {
     }
   }
 
-  const { name, namekid, email, phone, date } = req.body;
+  const { name, namekid, email, phone, date, duration, selectedTime } = req.body;
 
   try {
-    const newBooking = new Booking({ name, namekid, email, phone, date });
+    const newBooking = new Booking({ name, namekid, email, phone, date, duration, selectedTime });
     await newBooking.save();
 
 
