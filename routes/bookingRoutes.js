@@ -59,11 +59,11 @@ router.post('/', async (req, res) => {
 
 
 router.delete('/', async (req, res) => {
-  const { name } = req.query;  // Recibimos el 'name' desde los parámetros de la URL
+  const { phone } = req.query;  // Recibimos el 'name' desde los parámetros de la URL
 
   try {
     // Intentamos eliminar el documento que coincida con el 'name'
-    const result = await Booking.deleteOne({ name: name });
+    const result = await Booking.deleteOne({ phone: phone });
 
     // Verificamos si no se encontró ningún documento
     if (result.deletedCount === 0) {
