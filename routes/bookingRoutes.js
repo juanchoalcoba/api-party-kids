@@ -58,15 +58,12 @@ router.post('/', async (req, res) => {
 });
 
 
-const { ObjectId } = require('mongodb');  
-
-// Ruta DELETE para eliminar una reserva por _id
 router.delete('/', async (req, res) => {
-  const { id } = req.query;  // Recibimos el 'id' desde los parámetros de la URL
+  const { name } = req.query;  // Recibimos el 'name' desde los parámetros de la URL
 
   try {
-    // Convertimos el 'id' a ObjectId y tratamos de eliminar el documento que coincida con ese _id
-    const result = await Booking.deleteOne({ _id: ObjectId(id) });
+    // Intentamos eliminar el documento que coincida con el 'name'
+    const result = await Booking.deleteOne({ name: name });
 
     // Verificamos si no se encontró ningún documento
     if (result.deletedCount === 0) {
@@ -80,14 +77,15 @@ router.delete('/', async (req, res) => {
   }
 });
 
-// Ruta PUT para confirmar una reserva por _id
+
+// Ruta PUT para confirmar una reserva
 router.put('/', async (req, res) => {
-  const { id } = req.query;  // Recibimos el 'id' desde los parámetros de la URL
+  const { name } = req.query;  // Recibimos el 'name' desde los parámetros de la URL
 
   try {
-    // Convertimos el 'id' a ObjectId y tratamos de encontrar y actualizar la reserva que coincida con ese _id
+    // Intentamos encontrar y actualizar la reserva que coincida con el 'name'
     const result = await Booking.updateOne(
-      { _id: ObjectId(id) },
+      { name: name },
       { $set: { confirmed: true } } // Actualizamos el campo 'confirmed' a true
     );
 
@@ -102,7 +100,6 @@ router.put('/', async (req, res) => {
     res.status(500).json({ message: 'Error confirmando la reserva', error });
   }
 });
-
 
 
 
