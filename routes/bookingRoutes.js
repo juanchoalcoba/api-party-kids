@@ -78,6 +78,8 @@ router.delete('/', async (req, res) => {
 });
 
 
+
+
 // Ruta PUT para confirmar una reserva
 router.put('/', async (req, res) => {
   const { name } = req.query;  // Recibimos el 'name' desde los parámetros de la URL
@@ -104,7 +106,11 @@ router.put('/', async (req, res) => {
 
 
 
+
+
+
 // NUEVO ENDPOINT: Obtener solo las fechas reservadas
+/*
 router.get('/booked-dates', async (req, res) => {
   try {
     const bookings = await Booking.find().select('date -_id'); // Selecciona solo las fechas sin el _id
@@ -114,7 +120,7 @@ router.get('/booked-dates', async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
-
+*/
 
 
 
