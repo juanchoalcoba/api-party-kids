@@ -27,58 +27,6 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Endpoint para obtener horarios disponibles
-router.get('/available', async (req, res) => {
-  const { date } = req.query; // La fecha que se pasa como parámetro (en formato 'YYYY-MM-DD')
-  const requestedDate = new Date(date); // Convertir el parámetro a un objeto Date
-
-  try {
-    // Buscar todas las reservas que corresponden a la fecha solicitada
-    const bookings = await Booking.find({
-      date: {
-        $gte: new Date(requestedDate.setHours(0, 0, 0, 0)),
-        $lt: new Date(requestedDate.setHours(23, 59, 59, 999))
-      }
-    });
-
-    // Definir el rango de horas disponible (ejemplo 8 a 20)
-    const startHour = 8;
-    const endHour = 20;
-    const availableSlots = [];
-
-    // Llenar los slots con todas las horas disponibles
-    for (let hour = startHour; hour <= endHour; hour++) {
-      availableSlots.push(hour);
-    }
-
-    // Recorrer las reservas y bloquear las horas ocupadas
-    bookings.forEach(booking => {
-      const bookedStart = new Date(booking.date);
-      const bookedEnd = new Date(bookedStart);
-      bookedEnd.setHours(bookedStart.getHours() + booking.hours); // Añadir las horas de la reserva
-
-      // Bloquear las horas de la reserva y las horas alrededor
-      for (let i = bookedStart.getHours() - 4; i < bookedEnd.getHours() + 4; i++) {
-        const index = availableSlots.indexOf(i);
-        if (index !== -1) {
-          availableSlots.splice(index, 1); // Eliminar la hora ocupada
-        }
-      }
-    });
-
-    // Devolver las horas disponibles
-    res.status(200).json({
-      availableSlots
-    });
-  } catch (error) {
-    console.error('Error al obtener horarios disponibles:', error);
-    res.status(500).json({ message: 'Error al obtener los horarios disponibles' });
-  }
-});
-
-
-
-
 // Crear una nueva reserva
 router.post('/', async (req, res) => {
   async function sendSms() {
