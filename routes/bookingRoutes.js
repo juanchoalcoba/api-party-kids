@@ -58,6 +58,25 @@ router.post('/', async (req, res) => {
 });
 
 
+// Obtener horarios ocupados para una fecha específica
+router.get('/occupied-times', async (req, res) => {
+  const { date } = req.query;  // Se obtiene la fecha de los parámetros de la consulta (query)
+
+  try {
+    // Buscar todas las reservas para la fecha especificada
+    const bookings = await Booking.find({ date });
+
+    // Extraer los timeSlots (horarios de inicio) de las reservas encontradas
+    const occupiedTimes = bookings.map(booking => booking.timeSlot);
+
+    // Devolver los horarios ocupados como respuesta
+    res.status(200).json({ occupiedTimes });
+  } catch (err) {
+    res.status(500).json({ message: 'Error al obtener horarios ocupados', error: err.message });
+  }
+});
+
+
 router.delete('/', async (req, res) => {
   const { name } = req.query;  // Recibimos el 'name' desde los parámetros de la URL
 
