@@ -58,23 +58,6 @@ router.post('/', async (req, res) => {
 });
 
 
-// API endpoint para marcar un horario como reservado
-router.get('/reserved-times', async (req, res) => {
-  const { date, time } = req.body;
-
-  // Lógica para marcar el horario como reservado
-  await db.collection('reservations').insertOne({ date, time });
-
-  res.status(200).json({ message: 'Horario reservado correctamente' });
-});
-
-
-
-
-
-
-
-
 router.delete('/', async (req, res) => {
   const { name } = req.query;  // Recibimos el 'name' desde los parámetros de la URL
 
