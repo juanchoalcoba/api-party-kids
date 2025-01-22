@@ -58,66 +58,6 @@ router.post('/', async (req, res) => {
 });
 
 
-const getOccupiedSlots = async () => {
-  // Aquí deberías obtener los horarios ocupados desde la base de datos
-  // Si usas una base de datos relacional, como MySQL o PostgreSQL,
-  // puedes hacer una consulta que devuelva los horarios ocupados.
-  const response = await fetch('https://api-party-kids.vercel.app/api/bookings/occupiedSlots');
-  const data = await response.json();
-  return data.map((booking) => booking.timeSlot); // Extrae los horarios de las reservas
-};
-
-// Función para actualizar los horarios ocupados en la base de datos
-const updateOccupiedSlots = async (updatedSlots) => {
-  // Aquí deberías realizar la lógica para actualizar los horarios ocupados en la base de datos.
-  // Si usas una base de datos, podrías hacer una consulta de actualización aquí.
-  const response = await fetch('https://api-party-kids.vercel.app/api/bookings', {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ occupiedSlots: updatedSlots }),
-  });
-  return response.ok;
-};
-
-// Endpoint para obtener los horarios ocupados
-router.get('/occupiedSlots', async (req, res) => {
-  try {
-    const occupiedSlots = await getOccupiedSlots(); // Obtener horarios ocupados desde la base de datos
-    res.json(occupiedSlots); // Retorna los horarios ocupados como respuesta
-  } catch (error) {
-    console.error('Error al obtener los horarios ocupados:', error);
-    res.status(500).send('Error al obtener los horarios ocupados');
-  }
-});
-
-// Endpoint para actualizar los horarios ocupados
-router.put('/occupiedSlots', async (req, res) => {
-  const { updatedSlots } = req.body; // Obtener los nuevos horarios ocupados del cuerpo de la solicitud
-
-  try {
-    const result = await updateOccupiedSlots(updatedSlots); // Actualiza los horarios en la base de datos
-    if (result) {
-      res.status(200).send('Horarios ocupados actualizados');
-    } else {
-      res.status(400).send('Error al actualizar los horarios ocupados');
-    }
-  } catch (error) {
-    console.error('Error al actualizar los horarios ocupados:', error);
-    res.status(500).send('Error al actualizar los horarios ocupados');
-  }
-});
-
-
-
-// Para actualizar los horarios ocupados
-
-
-
-
-
-
 router.delete('/', async (req, res) => {
   const { name } = req.query;  // Recibimos el 'name' desde los parámetros de la URL
 
