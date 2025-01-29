@@ -4,16 +4,11 @@ const express = require('express');
 const Booking = require('../models/Booking');
 const mongoose = require("mongoose")
 const router = express.Router();
-
-const twilio = require('twilio');  // Aquí importamos Twilio
-
+import { Resend } from 'resend';
 
 
-const accountSid = 'ACb5810eecc32e7e99d1d7a07b342079fa'; 
-const authToken = 'a6d9703048342862031dc490eab67b06';  
-const client = new twilio(accountSid, authToken);  // Creamos una instancia del cliente de Twilio
-
-// Función para enviar el SMS
+// Inicializa Resend con tu API key
+const resend = new Resend('re_ZbJ8vVLa_MDYoostNjcErLg9xvztPRdht');
 
 
 
@@ -27,20 +22,12 @@ router.get('/', async (req, res) => {
   }
 });
 
+
+
+
 // Crear una nueva reserva
 router.post('/', async (req, res) => {
-  async function sendSms() {
-    try {
-      const message = await client.messages.create({
-        to: '+59899928843',  // El número fijo al que deseas enviar el SMS
-        from: '+15705308650',  // Tu número de Twilio
-        body: 'Se ha realizado una nueva reserva en KidsParty!!',  // El mensaje que deseas enviar
-      });
-      console.log('Mensaje enviado:', message.sid);
-    } catch (error) {
-      console.error('Error al enviar mensaje:', error);
-    }
-  }
+  
 
   const { name, namekid, email, phone, date, hours, timeSlot } = req.body;
 
@@ -49,7 +36,15 @@ router.post('/', async (req, res) => {
     await newBooking.save();
 
 
-    await sendSms();
+     // Enviar el correo electrónico usando Resend
+     await resend.emails.send({
+      from: 'onboarding@resend.dev',   // Cambia este correo por el remitente adecuado
+      to: 'juanchoalcoba@gmail.com',  
+      subject: 'Se ha creado una reserva',
+      html: `<h1>Hola Kids Party,</h1><p>Se ha realizado una reserva para el día ${date}, ${hours} horas a las ${timeSlot} hora inicial.</p>
+      <p> Si deseas comunicarte el telefono es ${phone}
+      `
+    });
 
     res.status(201).json(newBooking);
   } catch (err) {

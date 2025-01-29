@@ -1,0 +1,29 @@
+// Crear una nueva reserva
+router.post('/', async (req, res) => {
+  async function sendSms() {
+    try {
+      const message = await client.messages.create({
+        to: '+59899928843',  // El número fijo al que deseas enviar el SMS
+        from: '+15705308650',  // Tu número de Twilio
+        body: 'Se ha realizado una nueva reserva en KidsParty!!',  // El mensaje que deseas enviar
+      });
+      console.log('Mensaje enviado:', message.sid);
+    } catch (error) {
+      console.error('Error al enviar mensaje:', error);
+    }
+  }
+
+  const { name, namekid, email, phone, date, hours, timeSlot } = req.body;
+
+  try {
+    const newBooking = new Booking({ name, namekid, email, phone, date, hours, timeSlot });
+    await newBooking.save();
+
+
+    await sendSms();
+
+    res.status(201).json(newBooking);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
