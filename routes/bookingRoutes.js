@@ -4,11 +4,12 @@ const express = require('express');
 const Booking = require('../models/Booking');
 const mongoose = require("mongoose")
 const router = express.Router();
-import { Resend } from 'resend';
 
+const Resend = require('resend').Resend; // Para adaptarlo a require
 
 // Inicializa Resend con tu API key
 const resend = new Resend('re_ZbJ8vVLa_MDYoostNjcErLg9xvztPRdht');
+
 
 
 
