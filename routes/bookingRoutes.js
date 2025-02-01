@@ -40,7 +40,7 @@ router.post('/', async (req, res) => {
      // Enviar el correo electrónico usando Resend
      await resend.emails.send({
       from: 'onboarding@resend.dev',   // Cambia este correo por el remitente adecuado
-      to: 'juanchoalcoba@gmail.com',  
+      to: 'kidspartypdlt@gmail.com',  
       subject: 'Se ha creado una reserva',
       html: `<h1>Hola Kids Party,</h1><p>Se ha realizado una reserva para el día ${date}, ${hours} horas a las ${timeSlot} hora inicial.</p>
       <p> Si deseas comunicarte el telefono es ${phone} y su nombre ${name}
