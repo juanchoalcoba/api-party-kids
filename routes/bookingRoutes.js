@@ -16,7 +16,7 @@ const resend = new Resend('re_ZbJ8vVLa_MDYoostNjcErLg9xvztPRdht');
 // Obtener todas las reservas
 router.get('/', async (req, res) => {
   try {
-    const bookings = await Booking.find();
+    const bookings = await Booking.find().sort({ date: -1 }); // Orden descendente por fecha
     res.json(bookings);
   } catch (err) {
     res.status(500).json({ message: err.message });
