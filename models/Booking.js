@@ -8,7 +8,8 @@ const bookingSchema = new mongoose.Schema({
   date: { type: Date, required: true },
   hours: { type: String, required: true },
   timeSlot: { type: String, required: true },
-  
+  viewedByAdmin: { type: Boolean, default: false }, // Nuevo campo para marcar si el admin ha visto la reserva
+
   confirmed: {type: Boolean, default: false, // El valor predeterminado es false, es decir, la reserva no está confirmada
   }
 });
