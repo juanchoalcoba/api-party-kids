@@ -30,10 +30,10 @@ router.get('/', async (req, res) => {
 router.post('/', async (req, res) => {
   
 
-  const { name, namekid, email, phone, date, hours, timeSlot } = req.body;
+  const { name, namekid, phone, date, hours, timeSlot } = req.body;
 
   try {
-    const newBooking = new Booking({ name, namekid, email, phone, date, hours, timeSlot });
+    const newBooking = new Booking({ name, namekid, phone, date, hours, timeSlot });
     await newBooking.save();
 
 
