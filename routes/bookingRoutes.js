@@ -102,7 +102,7 @@ router.put('/', async (req, res) => {
 
 
 // Ruta PUT para marcar una reserva como vista
-router.put('/', async (req, res) => {
+router.put('/viewed', async (req, res) => {
   const { name } = req.query;  // Recibimos el 'name' desde los parámetros de la URL
 
   try {
