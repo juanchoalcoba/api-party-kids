@@ -101,6 +101,32 @@ router.put('/', async (req, res) => {
 
 
 
+// Ruta PUT para marcar una reserva como vista
+router.put('/', async (req, res) => {
+  const { name } = req.query;  // Recibimos el 'name' desde los parámetros de la URL
+
+  try {
+    // Intentamos encontrar y actualizar la reserva que coincida con el 'name'
+    const result = await Booking.updateOne(
+      { name: name },
+      { $set: { viewed: true } }  // Actualizamos el campo 'viewed' a true
+    );
+
+    // Verificamos si no se encontró ningún documento
+    if (result.nModified === 0) {
+      return res.status(404).json({ message: 'Reserva no encontrada o ya marcada como vista' });
+    }
+
+    // Si la actualización fue exitosa
+    res.status(200).json({ message: 'Reserva marcada como vista con éxito' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error marcando la reserva como vista', error });
+  }
+});
+
+
+
+
 
 
 
