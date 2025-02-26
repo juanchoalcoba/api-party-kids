@@ -99,29 +99,6 @@ router.put('/', async (req, res) => {
   }
 });
 
-// Ruta PUT para leer una reserva
-router.patch('/', async (req, res) => {
-  const { name } = req.params;  // Recibimos el 'name' desde los parámetros de la URL
-
-  try {
-    // Intentamos encontrar y actualizar la reserva que coincida con el 'name'
-    const result = await Booking.updateOne(
-      { name: name },
-      { $set: { viewedByAdmin: true } } 
-    );
-
-    // Verificamos si no se encontró ningún documento
-    if (result.nModified === 0) {
-      return res.status(404).json({ message: 'Reserva no encontrada o ya leida' });
-    }
-
-    // Si la actualización fue exitosa
-    res.status(200).json({ message: 'Reserva leida con éxito' });
-  } catch (error) {
-    res.status(500).json({ message: 'Error leyendo la reserva', error });
-  }
-});
-
 
 
 
