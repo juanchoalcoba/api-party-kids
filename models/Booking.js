@@ -9,8 +9,8 @@ const bookingSchema = new mongoose.Schema({
   hours: { type: String, required: true },
   timeSlot: { type: String, required: true },
   
-  confirmed: {type: Boolean, default: false, // El valor predeterminado es false, es decir, la reserva no está confirmada
-  }
+  confirmed: {type: Boolean, default: false},
+  viewedByAdmin: {type: Boolean, default: false}
 });
 
 const Booking = mongoose.model('Booking', bookingSchema, 'party-kids');
