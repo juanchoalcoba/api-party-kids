@@ -100,7 +100,7 @@ router.put('/', async (req, res) => {
 });
 
 // Ruta PUT para leer una reserva
-router.put('/viewed', async (req, res) => {
+router.patch('/', async (req, res) => {
   const { name } = req.query;  // Recibimos el 'name' desde los parámetros de la URL
 
   try {
