@@ -100,7 +100,7 @@ router.put('/', async (req, res) => {
 });
 
 // Ruta PUT para marcar una reserva como vista
-router.patch('/viewed', async (req, res) => {
+router.patch('/', async (req, res) => {
   const { name } = req.body;  // Recibimos el nombre de la reserva en el cuerpo de la solicitud
 
   try {
