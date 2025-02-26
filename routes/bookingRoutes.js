@@ -101,7 +101,7 @@ router.put('/', async (req, res) => {
 
 // Ruta PUT para leer una reserva
 router.patch('/', async (req, res) => {
-  const { name } = req.query;  // Recibimos el 'name' desde los parámetros de la URL
+  const { name } = req.params;  // Recibimos el 'name' desde los parámetros de la URL
 
   try {
     // Intentamos encontrar y actualizar la reserva que coincida con el 'name'
