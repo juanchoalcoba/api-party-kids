@@ -8,7 +8,7 @@ const router = express.Router();
 const Resend = require('resend').Resend; // Para adaptarlo a require
 
 // Inicializa Resend con tu API key
-const resend = new Resend('re_ZbJ8vVLa_MDYoostNjcErLg9xvztPRdht');
+const resend = new Resend('re_eYQ9KSrJ_EX5forY2cL9Eq9vXJH9AK4yW');
 
 
 
