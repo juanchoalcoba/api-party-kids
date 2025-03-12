@@ -1,4 +1,5 @@
 'use strict'
+
 const express = require('express');
 const Booking = require('../models/Booking');
 const mongoose = require("mongoose")
@@ -8,6 +9,8 @@ const Resend = require('resend').Resend; // Para adaptarlo a require
 
 // Inicializa Resend con tu API key
 const resend = new Resend('re_eYQ9KSrJ_EX5forY2cL9Eq9vXJH9AK4yW');
+
+
 
 
 // Obtener todas las reservas
@@ -21,9 +24,12 @@ router.get('/', async (req, res) => {
 });
 
 
+
+
 // Crear una nueva reserva
 router.post('/', async (req, res) => {
   
+
   const { name, namekid, phone, date, hours, timeSlot, archived } = req.body;
 
   try {
@@ -93,6 +99,33 @@ router.put('/', async (req, res) => {
   }
 });
 
+
+
+
+
+// Ruta PUT para confirmar una reserva
+router.put('/', async (req, res) => {
+  const { name } = req.query;  // Recibimos el 'name' desde los parámetros de la URL
+
+  try {
+    // Intentamos encontrar y actualizar la reserva que coincida con el 'name'
+    const result = await Booking.updateOne(
+      { name: name },
+      { $set: { archived: true } } // Actualizamos el campo 'confirmed' a true
+    );
+
+    // Verificamos si no se encontró ningún documento
+    if (result.nModified === 0) {
+      return res.status(404).json({ message: 'Reserva no encontrada o ya archivada' });
+    }
+
+    // Si la actualización fue exitosa
+    res.status(200).json({ message: 'Reserva archivada con éxito' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error archivando la reserva', error });
+  }
+});
+
 // Ruta PUT para marcar una reserva como vista
 router.patch('/', async (req, res) => {
   const { name } = req.body;  // Recibimos el nombre de la reserva en el cuerpo de la solicitud
@@ -108,27 +141,6 @@ router.patch('/', async (req, res) => {
     }
 
     res.status(200).json({ message: 'Reserva marcada como leída' });
-  } catch (error) {
-    res.status(500).json({ message: 'Error actualizando la reserva', error });
-  }
-});
-
-
-
-router.patch('/', async (req, res) => {
-  const { name } = req.body;  // Recibimos el nombre de la reserva en el cuerpo de la solicitud
-
-  try {
-    const result = await Booking.updateOne(
-      { name: name },
-      { $set: { archived: true } }
-    );
-
-    if (result.nModified === 0) {
-      return res.status(404).json({ message: 'Reserva no encontrada o ya archivada' });
-    }
-
-    res.status(200).json({ message: 'Reserva marcada como arvhivada' });
   } catch (error) {
     res.status(500).json({ message: 'Error actualizando la reserva', error });
   }
