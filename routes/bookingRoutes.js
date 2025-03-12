@@ -30,10 +30,10 @@ router.get('/', async (req, res) => {
 router.post('/', async (req, res) => {
   
 
-  const { name, namekid, phone, date, hours, timeSlot, archived } = req.body;
+  const { name, namekid, phone, date, hours, timeSlot } = req.body;
 
   try {
-    const newBooking = new Booking({ name, namekid, phone, date, hours, timeSlot, archived });
+    const newBooking = new Booking({ name, namekid, phone, date, hours, timeSlot });
     await newBooking.save();
 
 
@@ -96,33 +96,6 @@ router.put('/', async (req, res) => {
     res.status(200).json({ message: 'Reserva confirmada con éxito' });
   } catch (error) {
     res.status(500).json({ message: 'Error confirmando la reserva', error });
-  }
-});
-
-
-
-
-
-// Ruta PUT para confirmar una reserva
-router.put('/', async (req, res) => {
-  const { name } = req.query;  // Recibimos el 'name' desde los parámetros de la URL
-
-  try {
-    // Intentamos encontrar y actualizar la reserva que coincida con el 'name'
-    const result = await Booking.updateOne(
-      { name: name },
-      { $set: { archived: true } } // Actualizamos el campo 'confirmed' a true
-    );
-
-    // Verificamos si no se encontró ningún documento
-    if (result.nModified === 0) {
-      return res.status(404).json({ message: 'Reserva no encontrada o ya archivada' });
-    }
-
-    // Si la actualización fue exitosa
-    res.status(200).json({ message: 'Reserva archivada con éxito' });
-  } catch (error) {
-    res.status(500).json({ message: 'Error archivando la reserva', error });
   }
 });
 
