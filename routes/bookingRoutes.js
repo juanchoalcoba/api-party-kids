@@ -100,7 +100,6 @@ router.put('/', async (req, res) => {
 });
 
 
-// Ruta PUT para archivar una reserva
 router.put('/', async (req, res) => {
   const { name } = req.query;  // Recibimos el 'name' desde los parámetros de la URL
 
@@ -111,9 +110,14 @@ router.put('/', async (req, res) => {
       { $set: { confirmed: false, archived: true } } // Cambiamos 'confirmed' a false y 'archived' a true
     );
 
-    // Verificamos si no se encontró ningún documento
-    if (result.nModified === 0) {
-      return res.status(404).json({ message: 'Reserva no encontrada o ya archivada' });
+    // Verificamos si se encontró una reserva
+    if (result.matchedCount === 0) {
+      return res.status(404).json({ message: 'Reserva no encontrada' });
+    }
+
+    // Si no se modificó porque ya estaba archivada
+    if (result.modifiedCount === 0) {
+      return res.status(200).json({ message: 'Reserva ya estaba archivada' });
     }
 
     // Si la actualización fue exitosa
@@ -122,6 +126,7 @@ router.put('/', async (req, res) => {
     res.status(500).json({ message: 'Error archivando la reserva', error });
   }
 });
+
 
 
 
