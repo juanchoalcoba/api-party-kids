@@ -24,10 +24,10 @@ router.get('/', async (req, res) => {
 // Crear una nueva reserva
 router.post('/', async (req, res) => {
   
-  const { name, namekid, phone, date, hours, timeSlot } = req.body;
+  const { name, namekid, phone, date, hours, timeSlot, archived } = req.body;
 
   try {
-    const newBooking = new Booking({ name, namekid, phone, date, hours, timeSlot });
+    const newBooking = new Booking({ name, namekid, phone, date, hours, timeSlot, archived });
     await newBooking.save();
 
 
@@ -114,7 +114,7 @@ router.patch('/', async (req, res) => {
 });
 
 
-// Ruta PUT para marcar una reserva como vista
+
 router.patch('/', async (req, res) => {
   const { name } = req.body;  // Recibimos el nombre de la reserva en el cuerpo de la solicitud
 
