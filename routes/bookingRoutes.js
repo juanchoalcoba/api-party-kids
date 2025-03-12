@@ -99,40 +99,6 @@ router.put('/', async (req, res) => {
   }
 });
 
-
-router.put('/', async (req, res) => {
-  const { name } = req.query;  // Recibimos el 'name' desde los parámetros de la URL
-
-  try {
-    // Intentamos encontrar y actualizar la reserva que coincida con el 'name'
-    const result = await Booking.updateOne(
-      { name: name },
-      { $set: { confirmed: false, archived: true } } // Cambiamos 'confirmed' a false y 'archived' a true
-    );
-
-    // Verificamos si se encontró una reserva
-    if (result.matchedCount === 0) {
-      return res.status(404).json({ message: 'Reserva no encontrada' });
-    }
-
-    // Si no se modificó porque ya estaba archivada
-    if (result.modifiedCount === 0) {
-      return res.status(200).json({ message: 'Reserva ya estaba archivada' });
-    }
-
-    // Si la actualización fue exitosa
-    res.status(200).json({ message: 'Reserva archivada con éxito' });
-  } catch (error) {
-    res.status(500).json({ message: 'Error archivando la reserva', error });
-  }
-});
-
-
-
-
-
-
-
 // Ruta PUT para marcar una reserva como vista
 router.patch('/', async (req, res) => {
   const { name } = req.body;  // Recibimos el nombre de la reserva en el cuerpo de la solicitud
