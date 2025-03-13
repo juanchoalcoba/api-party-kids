@@ -10,7 +10,8 @@ const bookingSchema = new mongoose.Schema({
   timeSlot: { type: String, required: true },
   
   confirmed: {type: Boolean, default: false},
-  viewedByAdmin: {type: Boolean, default: false}
+  viewedByAdmin: {type: Boolean, default: false},
+  archived: {type: Boolean, default: false}
 });
 
 const Booking = mongoose.model('Booking', bookingSchema, 'party-kids');
