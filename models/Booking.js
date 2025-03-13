@@ -8,7 +8,7 @@ const bookingSchema = new mongoose.Schema({
   date: { type: Date, required: true },
   hours: { type: String, required: true },
   timeSlot: { type: String, required: true },
-  
+  archived: {type: String, default: false},
   confirmed: {type: Boolean, default: false},
   viewedByAdmin: {type: Boolean, default: false}
 });
