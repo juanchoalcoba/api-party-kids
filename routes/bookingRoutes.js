@@ -100,25 +100,25 @@ router.put('/', async (req, res) => {
 });
 
 // Ruta PUT para marcar una reserva como vista
-router.patch('/:id', async (req, res) => {
-  const { id } = req.params;  // Recibimos el id de la reserva en los parámetros de la URL
+router.patch('/', async (req, res) => {
+  const { date } = req.body;  // Recibimos la fecha de la reserva en el cuerpo de la solicitud
 
   try {
-    const updatedBooking = await Booking.findByIdAndUpdate(
-      id,  // Utilizamos findByIdAndUpdate para encontrar la reserva por su id
-      { $set: { viewedByAdmin: true } },
-      { new: true }  // Esto retorna el documento actualizado
+    const result = await Booking.updateOne(
+      { date: date },  // Ahora buscamos por la 'date' en lugar de 'name'
+      { $set: { viewedByAdmin: true } }
     );
 
-    if (!updatedBooking) {
+    if (result.nModified === 0) {
       return res.status(404).json({ message: 'Reserva no encontrada o ya leída' });
     }
 
-    res.status(200).json({ message: 'Reserva marcada como leída', booking: updatedBooking });
+    res.status(200).json({ message: 'Reserva marcada como leída' });
   } catch (error) {
     res.status(500).json({ message: 'Error actualizando la reserva', error });
   }
 });
+
 
 
 
