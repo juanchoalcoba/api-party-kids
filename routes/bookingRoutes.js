@@ -120,7 +120,7 @@ router.patch('/', async (req, res) => {
 });
 
 // Ruta archivar para marcar una reserva como vista
-router.patch('/archived', async (req, res) => {
+router.patch('/', async (req, res) => {
   const { name } = req.body;  // Recibimos el nombre de la reserva en el cuerpo de la solicitud
 
   try {
