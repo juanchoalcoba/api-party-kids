@@ -105,7 +105,7 @@ router.patch('/', async (req, res) => {
 
   try {
     const result = await Booking.updateOne(
-      { name: namekid },
+      { namekid: namekid },
       { $set: { viewedByAdmin: true } }
     );
 
