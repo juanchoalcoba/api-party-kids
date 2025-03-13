@@ -120,8 +120,8 @@ router.patch('/', async (req, res) => {
 });
 
 // Ruta archivar para marcar una reserva como vista
-router.patch('/', async (req, res) => {
-  const { name } = req.body;  // Recibimos el nombre de la reserva en el cuerpo de la solicitud
+router.put('/', async (req, res) => {
+  const { name } = req.query;  // Recibimos el nombre de la reserva en el cuerpo de la solicitud
 
   try {
     const result = await Booking.updateOne(
