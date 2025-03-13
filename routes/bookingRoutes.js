@@ -99,26 +99,23 @@ router.put('/', async (req, res) => {
   }
 });
 
-// Ruta PUT para confirmar una reserva
-router.put('/', async (req, res) => {
-  const { date } = req.query;  // Recibimos el 'name' desde los parámetros de la URL
+// Ruta PUT para marcar una reserva como vista
+router.patch('/', async (req, res) => {
+  const { name } = req.body;  // Recibimos el nombre de la reserva en el cuerpo de la solicitud
 
   try {
-    // Intentamos encontrar y actualizar la reserva que coincida con el 'name'
     const result = await Booking.updateOne(
-      { date: date },
-      { $set: { viewedByAdmin: true } } // Actualizamos el campo 'confirmed' a true
+      { name: name },
+      { $set: { viewedByAdmin: true } }
     );
 
-    // Verificamos si no se encontró ningún documento
     if (result.nModified === 0) {
-      return res.status(404).json({ message: 'Reserva no encontrada o ya confirmada' });
+      return res.status(404).json({ message: 'Reserva no encontrada o ya leída' });
     }
 
-    // Si la actualización fue exitosa
-    res.status(200).json({ message: 'Reserva confirmada con éxito' });
+    res.status(200).json({ message: 'Reserva marcada como leída' });
   } catch (error) {
-    res.status(500).json({ message: 'Error confirmando la reserva', error });
+    res.status(500).json({ message: 'Error actualizando la reserva', error });
   }
 });
 
