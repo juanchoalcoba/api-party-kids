@@ -99,13 +99,12 @@ router.put('/', async (req, res) => {
   }
 });
 
-// Ruta PUT para marcar una reserva como vista
 router.patch('/', async (req, res) => {
-  const { name } = req.body;  // Recibimos el nombre de la reserva en el cuerpo de la solicitud
+  const { _id } = req.body;  // Recibimos el _id de la reserva en el cuerpo de la solicitud
 
   try {
     const result = await Booking.updateOne(
-      { name: name },
+      { _id: mongoose.Types.ObjectId(_id) },  // Convertimos _id a ObjectId
       { $set: { viewedByAdmin: true } }
     );
 
