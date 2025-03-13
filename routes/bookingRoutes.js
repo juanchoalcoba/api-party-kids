@@ -100,8 +100,8 @@ router.put('/', async (req, res) => {
 });
 
 // Ruta PUT para confirmar una reserva
-router.put('/:date', async (req, res) => {
-  const { date } = req.params;  // Recibimos el 'name' desde los parámetros de la URL
+router.put('/', async (req, res) => {
+  const { date } = req.query;  // Recibimos el 'name' desde los parámetros de la URL
 
   try {
     // Intentamos encontrar y actualizar la reserva que coincida con el 'name'
