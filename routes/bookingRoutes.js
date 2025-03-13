@@ -101,11 +101,11 @@ router.put('/', async (req, res) => {
 
 // Ruta PUT para marcar una reserva como vista
 router.patch('/', async (req, res) => {
-  const { date } = req.body;  // Recibimos la fecha de la reserva en el cuerpo de la solicitud
+  const { name } = req.body;  // Recibimos el nombre de la reserva en el cuerpo de la solicitud
 
   try {
     const result = await Booking.updateOne(
-      { date: date },  // Ahora buscamos por la 'date' en lugar de 'name'
+      { name: name },
       { $set: { viewedByAdmin: true } }
     );
 
@@ -118,7 +118,6 @@ router.patch('/', async (req, res) => {
     res.status(500).json({ message: 'Error actualizando la reserva', error });
   }
 });
-
 
 
 
