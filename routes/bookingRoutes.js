@@ -101,15 +101,13 @@ router.put('/', async (req, res) => {
 
 
 
-router.put('/:id', async (req, res) => {  // Usamos PUT en lugar de PATCH
-  const { id } = req.params;  // Obtenemos el 'id' de la URL
-  const { viewedByAdmin } = req.body;  // Recibimos 'viewedByAdmin' desde el cuerpo de la solicitud
-
+outer.put('/:id', async (req, res) => {
+  const { id } = req.params;  // Asegúrate de que estás usando ':id' en la ruta
   try {
     const result = await Booking.findByIdAndUpdate(
-      id,  // Buscamos la reserva por su '_id'
-      { $set: { viewedByAdmin } },  // Actualizamos 'viewedByAdmin'
-      { new: true }  // Opcional: Devuelve el documento actualizado
+      id, 
+      { $set: { viewedByAdmin: true } },
+      { new: true }
     );
 
     if (!result) {
