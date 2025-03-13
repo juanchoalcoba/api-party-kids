@@ -122,27 +122,6 @@ router.patch('/', async (req, res) => {
 
 
 
-// Ruta PUT para archivar una reserva
-router.put('/:id', async (req, res) => {
-  const { id } = req.params; // Recibimos el 'name' desde los parámetros de la URL
-
-  try {
-    const result = await Booking.updateOne(
-      { _id: mongoose.Types.ObjectId(id) },
-      { $set: { confirmed: false, archived: true } }  // Actualizamos el nombre y la fecha
-    );
-
-    if (result.nModified === 0) {
-      return res.status(404).json({ message: 'Reserva no encontrada o no actualizada' });
-    }
-
-    res.status(200).json({ message: 'Reserva actualizada correctamente' });
-  } catch (error) {
-    res.status(500).json({ message: 'Error actualizando la reserva', error });
-  }
-});
-
-
 
 
 
