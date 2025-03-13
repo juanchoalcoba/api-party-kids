@@ -99,24 +99,29 @@ router.put('/', async (req, res) => {
   }
 });
 
-router.put('/:id', async (req, res) => {
-  const { _id } = req.params;  // Recibimos el _id de la reserva en el cuerpo de la solicitud
+
+
+router.put('/:id', async (req, res) => {  // Usamos PUT en lugar de PATCH
+  const { id } = req.params;  // Obtenemos el 'id' de la URL
+  const { viewedByAdmin } = req.body;  // Recibimos 'viewedByAdmin' desde el cuerpo de la solicitud
 
   try {
-    const result = await Booking.updateOne(
-      { _id: mongoose.Types.ObjectId(_id) },  // Convertimos _id a ObjectId
-      { $set: { viewedByAdmin: true } }
+    const result = await Booking.findByIdAndUpdate(
+      id,  // Buscamos la reserva por su '_id'
+      { $set: { viewedByAdmin } },  // Actualizamos 'viewedByAdmin'
+      { new: true }  // Opcional: Devuelve el documento actualizado
     );
 
-    if (result.nModified === 0) {
+    if (!result) {
       return res.status(404).json({ message: 'Reserva no encontrada o ya leída' });
     }
 
-    res.status(200).json({ message: 'Reserva marcada como leída' });
+    res.status(200).json({ message: 'Reserva marcada como leída', result });
   } catch (error) {
     res.status(500).json({ message: 'Error actualizando la reserva', error });
   }
 });
+
 
 
 
