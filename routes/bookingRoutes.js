@@ -100,12 +100,12 @@ router.put('/', async (req, res) => {
 });
 
 // Ruta PUT para marcar una reserva como vista
-router.patch('/', async (req, res) => {
-  const { name } = req.body;  // Recibimos el nombre de la reserva en el cuerpo de la solicitud
+router.patch('/:id', async (req, res) => {
+  const { id } = req.params;  // Recibimos el id de la reserva en los parámetros de la URL
 
   try {
     const result = await Booking.updateOne(
-      { name: name },
+      { _id: id },  // Filtramos por id único
       { $set: { viewedByAdmin: true } }
     );
 
@@ -118,6 +118,7 @@ router.patch('/', async (req, res) => {
     res.status(500).json({ message: 'Error actualizando la reserva', error });
   }
 });
+
 
 
 
