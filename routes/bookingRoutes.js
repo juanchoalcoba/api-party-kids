@@ -99,8 +99,8 @@ router.put('/', async (req, res) => {
   }
 });
 
-router.patch('/', async (req, res) => {
-  const { _id } = req.body;  // Recibimos el _id de la reserva en el cuerpo de la solicitud
+router.put('/:id', async (req, res) => {
+  const { _id } = req.params;  // Recibimos el _id de la reserva en el cuerpo de la solicitud
 
   try {
     const result = await Booking.updateOne(
