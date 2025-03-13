@@ -101,7 +101,7 @@ router.put('/', async (req, res) => {
 
 
 
-outer.put('/:id', async (req, res) => {
+router.put('/:id', async (req, res) => {
   const { id } = req.params;  // Asegúrate de que estás usando ':id' en la ruta
   try {
     const result = await Booking.findByIdAndUpdate(
