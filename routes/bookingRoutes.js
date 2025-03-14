@@ -123,6 +123,30 @@ router.patch('/:id', async (req, res) => {
 
 
 
+// Ruta PATCH para marcar una reserva como archivavda usando _id
+router.patch('/:id', async (req, res) => {
+  const { id } = req.params; // Recibimos el _id en los parámetros de la solicitud
+
+  try {
+    const result = await Booking.findByIdAndUpdate(
+      id,
+      { $set: { confirmed: false, archived: true } },
+      { new: true } // Para devolver el documento actualizado
+    );
+
+    if (!result) {
+      return res.status(404).json({ message: 'Reserva no encontrada o ya leída' });
+    }
+
+    res.status(200).json({ message: 'Reserva marcada como leída', booking: result });
+  } catch (error) {
+    res.status(500).json({ message: 'Error actualizando la reserva', error });
+  }
+});
+
+
+
+
 
 
 
