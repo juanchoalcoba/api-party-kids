@@ -130,7 +130,7 @@
     try {
       const result = await Booking.findByIdAndUpdate(
         id,
-        { $set: { confirmed: false, archived: true } },
+        { $set: { archived: true } },
         { new: true } // Para devolver el documento actualizado
       );
 
