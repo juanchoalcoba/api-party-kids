@@ -8,7 +8,7 @@
   ],
   "routes": [
     {
-      "src": "/api/bookings/archived",
+      "src": "/api/bookings/archived/([^/]+)", 
       "dest": "/server.js",
       "headers": {
         "Access-Control-Allow-Origin": "*",
