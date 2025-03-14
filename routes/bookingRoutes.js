@@ -129,7 +129,7 @@ router.put('/archived/:id', async (req, res) => {
   try {
     const result = await Booking.findByIdAndUpdate(
       id,
-      { $set: { archived: true} },
+      { $set: { archived: true, confirmed: false} },
       { new: true } // Para devolver el documento actualizado
     );
 
