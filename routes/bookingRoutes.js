@@ -5,13 +5,6 @@ const Booking = require('../models/Booking');
 const mongoose = require("mongoose")
 const router = express.Router();
 
-const Resend = require('resend').Resend; // Para adaptarlo a require
-
-// Inicializa Resend con tu API key
-const resend = new Resend('re_eYQ9KSrJ_EX5forY2cL9Eq9vXJH9AK4yW');
-
-
-
 
 // Obtener todas las reservas
 router.get('/', async (req, res) => {
@@ -22,9 +15,6 @@ router.get('/', async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
-
-
-
 
 // Crear una nueva reserva
 router.post('/', async (req, res) => {
@@ -37,15 +27,7 @@ router.post('/', async (req, res) => {
     await newBooking.save();
 
 
-     // Enviar el correo electrónico usando Resend
-     await resend.emails.send({
-      from: 'onboarding@resend.dev',   // Cambia este correo por el remitente adecuado
-      to: 'kidspartypdlt@gmail.com',  
-      subject: 'Se ha creado una reserva',
-      html: `<h1>Hola Kids Party,</h1><p>Se ha realizado una reserva para el día ${date}, ${hours} horas a las ${timeSlot} hora inicial.</p>
-      <p> Si deseas comunicarte el telefono es ${phone} y su nombre ${name}
-      `
-    });
+   
 
     res.status(201).json(newBooking);
   } catch (err) {
