@@ -25,10 +25,6 @@ router.post('/', async (req, res) => {
   try {
     const newBooking = new Booking({ name, namekid, phone, date, hours, timeSlot });
     await newBooking.save();
-
-
-   
-
     res.status(201).json(newBooking);
   } catch (err) {
     res.status(400).json({ message: err.message });
